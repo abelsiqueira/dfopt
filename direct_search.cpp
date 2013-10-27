@@ -39,4 +39,5 @@ void direct_search (function f, double *x, int n, Info & info) {
       step_size /= 2;
     }
   }
+  info.fx = fx;
 }

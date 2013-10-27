@@ -206,6 +206,7 @@ void nelder_mead (function f, double *x, int n, Info & info) {
   for (int i = 0; i < n; i++) {
     x[i] = X.front()[i];
   }
+  info.fx = F.front();
   while (X.begin() != X.end()) {
     delete [] (X.front());
     X.pop_front();

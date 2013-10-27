@@ -8,6 +8,7 @@ class Info {
     Info() : fevals(0) {}
     ~Info() {}
     int fevals;
+    double fx;
 };
 
 #endif
