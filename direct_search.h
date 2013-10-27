@@ -3,6 +3,6 @@
 
 #include "definitions.h"
 
-void direct_search (function f, double *x, int n);
+void direct_search (function f, double *x, int n, Info & info);
 
 #endif

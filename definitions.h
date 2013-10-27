@@ -3,11 +3,10 @@
 
 typedef double (*function) (double *x, int n);
 
-class info {
+class Info {
   public:
-    info() : iters(0), fevals(0) {}
-    ~info() {}
-    int iters;
+    Info() : fevals(0) {}
+    ~Info() {}
     int fevals;
 };
 

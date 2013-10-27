@@ -1,5 +1,5 @@
 #include <iostream>
-#include "nelder_mead.h"
+#include "direct_search.h"
 #include <cmath>
 
 using namespace std;
@@ -16,13 +16,7 @@ int main () {
   for (int i = 0; i < n; i++)
     x[i] = 0.0;
 
-  cout << "f0 = " << fun(x,n) << endl;
-  cout << "x0 = ";
-  for (int i = 0; i < n; i++)
-    cout << x[i] << ' ';
-  cout << endl;
-
-  nelder_mead(&fun, x, n, info);
+  direct_search(&fun, x, n, info);
 
   cout << "f = " << fun(x,n) << endl;
   cout << "x = ";

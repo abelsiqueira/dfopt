@@ -3,6 +3,6 @@
 
 #include "definitions.h"
 
-void nelder_mead (function f, double *x, int n);
+void nelder_mead (function f, double *x, int n, Info & info);
 
 #endif

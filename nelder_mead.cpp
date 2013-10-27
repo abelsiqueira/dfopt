@@ -56,7 +56,7 @@ void sort (std::list<double*>& X, std::list<double>& F) {
 
 }
 
-void shrink (std::list<double*>& X, std::list<double>& F, function f, int n) {
+void shrink (std::list<double*>& X, std::list<double>& F, function f, int n, Info & info) {
   std::list<double*>::iterator iter_x = X.begin(), iter_xend = X.end();
   std::list<double>::iterator iter_f = F.begin(), iter_fend = F.end();
   double *x0 = *iter_x;
@@ -68,6 +68,7 @@ void shrink (std::list<double*>& X, std::list<double>& F, function f, int n) {
       (*iter_x)[i] = ( (*iter_x)[i] + x0[i] )/2;
     }
     *iter_f = (*f)(*iter_x,n);
+    info.fevals++;
     iter_x++;
     iter_f++;
   }
@@ -98,7 +99,7 @@ double calc_diameter (std::list<double*>& X, int n) {
   return diameter;
 }
 
-void nelder_mead (function f, double *x, int n) {
+void nelder_mead (function f, double *x, int n, Info & info) {
   std::list < double * > X;
   std::list < double > F;
 
@@ -109,6 +110,7 @@ void nelder_mead (function f, double *x, int n) {
   for (int i = 0; i < n; i++)
     X.front()[i] = x[i];
   F.push_back((*f)(x,n));
+  info.fevals++;
   for (int i = 0; i < n; i++) {
     double *y = new double[n];
     X.push_back(y);
@@ -116,6 +118,7 @@ void nelder_mead (function f, double *x, int n) {
       y[j] = x[j];
     y[i] += diameter;
     F.push_back((*f)(y,n));
+    info.fevals++;
   }
 
   std::list<double*>::const_iterator iter_x, iter_xend = X.end();
@@ -159,6 +162,7 @@ void nelder_mead (function f, double *x, int n) {
     for (int i = 0; i < n; i++)
       xnew[i] = xm[i] + v[i];
     fnew = (*f)(xnew,n);
+    info.fevals++;
     if (fb <= fnew && fnew < fs) {
       F.back() = fnew;
     } else if (fnew < fb) {
@@ -166,6 +170,7 @@ void nelder_mead (function f, double *x, int n) {
       for (int i = 0; i < n; i++)
         xnew[i] += v[i];
       double fe = (*f)(xnew,n);
+      info.fevals++;
       if (fnew < fe) {
         for (int i = 0; i < n; i++)
           xnew[i] -= v[i];
@@ -178,10 +183,11 @@ void nelder_mead (function f, double *x, int n) {
       for (int i = 0; i < n; i++)
         xnew[i] = xm[i] - 0.5*v[i];
       fnew = (*f)(xnew,n);
+      info.fevals++;
       if (fnew < fw) {
         F.back() = fnew;
       } else {
-        shrink(X,F,f,n);
+        shrink(X,F,f,n,info);
       }
     }
 

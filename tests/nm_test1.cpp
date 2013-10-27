@@ -15,6 +15,7 @@ double fun (double *x, int n) {
 int main () {
   int n = 4;
   double *x = new double[n];
+  Info info;
 
   for (int i = 0; i < n; i++)
     x[i] = 0.0;
@@ -25,13 +26,14 @@ int main () {
     cout << x[i] << ' ';
   cout << endl;
 
-  nelder_mead(&fun, x, n);
+  nelder_mead(&fun, x, n, info);
 
   cout << "f = " << fun(x,n) << endl;
   cout << "x = ";
   for (int i = 0; i < n; i++)
     cout << x[i] << ' ';
   cout << endl;
+  cout << "fevals = " << info.fevals << endl;
 
   return 0;
 }
