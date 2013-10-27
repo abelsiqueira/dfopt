@@ -103,7 +103,6 @@ void nelder_mead (function f, double *x, int n, Info & info) {
   std::list < double * > X;
   std::list < double > F;
 
-  int iters = 0;
   double diameter = 1;
 
   X.push_back(new double[n]);
@@ -196,11 +195,6 @@ void nelder_mead (function f, double *x, int n, Info & info) {
 
     delete []xm;
     delete []v;
-
-    iters++;
-
-    if (iters > 10000)
-      break;
   }
 
   for (int i = 0; i < n; i++) {
