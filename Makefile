@@ -1,8 +1,6 @@
-OBJS = nelder_mead.o
-TESTS = test1.tst test2.tst
+OBJS = nelder_mead.o direct_search.o
 CXXFLAGS += -Wall -Wextra -ggdb
 
-all: $(TESTS)
-
-%.tst: %.o $(OBJS)
-	$(CXX) -o $@ $< $(OBJS) $(CXXFLAGS)
+all: $(OBJS)
+	ar rv libdfopt.a $(OBJS)
+	(cd tests; make)
