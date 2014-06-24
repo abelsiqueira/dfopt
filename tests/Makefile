@@ -6,6 +6,7 @@ DSTESTS = ds_test1.tst ds_test2.tst
 TESTS = $(NMTESTS) $(DSTESTS)
 
 all: $(TESTS)
+	@for i in *.tst; do ./$$i; done
 
 %.tst: %.o 
 	$(CXX) -o $@ $< ../libdfopt.a $(CXXFLAGS)
