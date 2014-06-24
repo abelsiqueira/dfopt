@@ -2,15 +2,16 @@
 #include "direct_search.h"
 #include <cmath>
 extern "C" {
-#include "cuter.h"
+#include "cutest.h"
 }
 
 using namespace std;
 
 double fun (double *x, int n) {
   double f;
+  int status;
 
-  UFN(&n, x, &f);
+  CUTEST_ufn(&status, &n, x, &f);
 
   return f;
 }
@@ -18,10 +19,10 @@ double fun (double *x, int n) {
 int MAINENTRY () {
   char fname[10] = "OUTSDIF.d";
   int nvar = 0, ncon = 0;
-  int funit = 42, ierr = 0, fout = 6;
+  int funit = 42, ierr = 0, fout = 6, io_buffer = 11, status;
 
-  FORTRAN_OPEN(&funit, fname, &ierr);
-  CDIMEN(&funit, &nvar, &ncon);
+  FORTRAN_open(&funit, fname, &ierr);
+  CUTEST_cdimen(&status, &funit, &nvar, &ncon);
 
   double x[nvar], bl[nvar], bu[nvar];
 
@@ -30,20 +31,20 @@ int MAINENTRY () {
     return 1;
   }
 
-  USETUP(&funit, &fout, &nvar, x, bl, bu, &nvar);
+  CUTEST_usetup(&status, &funit, &fout, &io_buffer, &nvar, x, bl, bu);
 
   Info info;
 
   direct_search(&fun, x, nvar, info);
 
-  real calls[7], time[2];
-  CREPRT(calls, time);
+  doublereal calls[7], time[2];
+  CUTEST_creport(&status, calls, time);
   std::cout << "Objective value = " << fun(x,nvar) << std::endl;
   std::cout << "Setup time: " << time[0] << std::endl
     << "Solve time: " << time[1] << std::endl;
   cout << "Number of Function Evaluations = " << info.fevals << endl;
 
-  FORTRAN_CLOSE(&funit, &ierr);
+  FORTRAN_close(&funit, &ierr);
 
   return 0;
 }
